@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from .models import Team
+from cars.models import Car
 
 
 def home(request):
     teams = Team.objects.all()
+    featured_car = Car.objects.order_by('-created_date').filter(is_features=True)
+    all_car=Car.objects.order_by('-created_date')
     data = {
-        'teams': teams
+        'teams': teams,
+        'featured_car': featured_car,
+        'all_car':all_car,
     }
     return render(request, 'pages/home.html', data)
 
@@ -15,7 +20,7 @@ def about(request):
     data = {
         'teams': teams
     }
-    return render(request, 'pages/about.html',data)
+    return render(request, 'pages/about.html', data)
 
 
 def services(request):
